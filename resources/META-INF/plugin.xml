@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.wizzer.magiclantern.studio.plugin.id</id>
-  <name>Plugin display name here</name>
-  <version>1.0</version>
+  <name>Magic Lantern Studio</name>
+  <version>0.1</version>
   <vendor email="msm@wizzerworks.com" url="http://www.wizzerworks.com">Wizzer Works</vendor>
 
   <description><![CDATA[
@@ -21,13 +21,25 @@
   <!-- uncomment to enable plugin in all products
   <depends>com.intellij.modules.lang</depends>
   -->
+  <depends>org.jetbrains.android</depends>
+  <depends>org.jetbrains.plugins.gradle</depends>
+  <depends>com.intellij.properties</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
   </extensions>
 
   <actions>
-    <!-- Add your actions here -->
+    <!--
+    Create a submenu item, "About", under a main menu entry called "Magic Lantern".
+    -->
+    <group id="MagicLanternStudioPlugin.Tools" text="_Magic Lantern" description="Magic Lantern Studio menu">
+      <add-to-group group-id="MainMenu" anchor="last"  />
+      <action id="MagicLanternStudioPlugin.MleNewProjectAction" class="com.wizzer.tools.idea.actions.MleNewProjectAction"
+              text="New Project" description="Create a new Android Project." />
+      <action id="MagicLanternStudioPlugin.MleAboutPluginAction" class="com.wizzer.tools.idea.actions.MleAboutPluginAction"
+              text="About" description="Display information about the Magic Lantern Studio Plugin." />
+    </group>
   </actions>
 
 </idea-plugin>
