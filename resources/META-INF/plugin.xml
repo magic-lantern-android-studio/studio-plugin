@@ -26,7 +26,8 @@
   <depends>com.intellij.properties</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <!-- TODO: AndroidWizardWrapper wraps the old DynamicWizard and this registration should be removed once we've ported to ModelWizard -->
+    <moduleBuilder builderClass="com.wizzer.jetbrains.newProject.AndroidWizardWrapper"/>
   </extensions>
 
   <actions>
