@@ -38,6 +38,8 @@
       <add-to-group group-id="MainMenu" anchor="last"  />
       <action id="MagicLanternStudioPlugin.MleNewProjectAction" class="com.wizzer.tools.idea.actions.MleNewProjectAction"
               text="New Project" description="Create a new Android Project." />
+      <action id="MagicLanternStudioPlugin.MleInspectFileAction" class="com.wizzer.tools.idea.actions.MleInspectFileAction"
+              text="Inspect File" description="Display information about selected files in a Project." />
       <action id="MagicLanternStudioPlugin.MleAboutPluginAction" class="com.wizzer.tools.idea.actions.MleAboutPluginAction"
               text="About" description="Display information about the Magic Lantern Studio Plugin." />
     </group>

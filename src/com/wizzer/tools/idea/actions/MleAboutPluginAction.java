@@ -28,7 +28,7 @@ public class MleAboutPluginAction extends AnAction
     public void actionPerformed(AnActionEvent event)
     {
         Project project = event.getData(PlatformDataKeys.PROJECT);
-        Messages.showMessageDialog(project, "Magic Lantern Plugin\nProof of Concept", "Information",
-                Messages.getInformationIcon());
+        Messages.showMessageDialog(project, "Magic Lantern Plugin\n\nProof of Concept\n\nwww.wizzerworks.com",
+            "Information", Messages.getInformationIcon());
     }
 }
