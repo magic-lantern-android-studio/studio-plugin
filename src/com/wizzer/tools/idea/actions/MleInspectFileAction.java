@@ -2,13 +2,22 @@
 package com.wizzer.tools.idea.actions;
 
 // Import IntelliJ plugin classes.
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileSystem;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.PsiManager;
+import com.intellij.util.IncorrectOperationException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 
 /**
@@ -31,13 +40,33 @@ public class MleInspectFileAction extends AnAction
     {
         // Get the selected project context.
         Project project = event.getData(PlatformDataKeys.PROJECT);
+
         // Get selected file from Project.
         //VirtualFile file = DataKeys.VIRTUAL_FILE.getData(event.getDataContext());
+
+        // Better way to do this if multiple selections were made.
         VirtualFile selection[] = DataKeys.VIRTUAL_FILE_ARRAY.getData(event.getDataContext());
+
         // Get the selected file's parent folder.
         //VirtualFile folder = file.getParent();
 
+        // Example on how to get a handle to the PSI file from the event. Note that null will be returned
+        // if multiple selections were made.
+        //PsiFile file = event.getData(LangDataKeys.PSI_FILE);
+
         // Display some information about the selection.
+        displaySelection(project, selection);
+
+        // Create a Readme.txt file if the selection is a directory.
+        if (selection[0].isDirectory()) {
+            PsiDirectory dest = PsiManager.getInstance(project).findDirectory(selection[0]);
+            createFile(project, dest);
+        }
+    }
+
+    // Display the selected VirtualFiles.
+    private void displaySelection(Project project, VirtualFile[] selection)
+    {
         String msg;
         if (selection != null)
             msg = buildSelectionList(selection);
@@ -52,7 +81,7 @@ public class MleInspectFileAction extends AnAction
     {
         String selectionList = new String();
         for (int i = 0; i < selection.length; i++) {
-            selectionList += "  ";
+            selectionList += "    ";
             selectionList += selection[i].getName();
             if (selection[i].isDirectory())
                 selectionList += " (folder)";
@@ -60,5 +89,29 @@ public class MleInspectFileAction extends AnAction
         }
 
         return selectionList;
+    }
+
+    // Create a Readme.txt file in the selected project.
+    private VirtualFile createFile(Project project, PsiDirectory dir)
+    {
+        String filename = "Readme.txt";
+        PsiFile newFile = null;
+
+        try {
+            dir.checkCreateFile(filename);
+
+            // If we made it to here, we can create the file.
+            newFile = PsiFileFactory.getInstance(project).createFileFromText("Readme.txt",
+                    "This file was created by the Magic Lantern Plugin.");
+            dir.add(newFile);
+        } catch (IncorrectOperationException ex) {
+            Messages.showMessageDialog(project, ex.getMessage(),
+                    "Error", Messages.getErrorIcon());
+        }
+
+        if (newFile != null)
+            return newFile.getVirtualFile();
+        else
+            return null;
     }
 }
