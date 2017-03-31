@@ -29,6 +29,7 @@
     <!-- TODO: AndroidWizardWrapper wraps the old DynamicWizard and this registration should be removed once we've ported to ModelWizard -->
     <moduleBuilder builderClass="com.wizzer.jetbrains.newProject.AndroidWizardWrapper"/>
     <fileTypeFactory implementation="com.wizzer.dwp.DigitalWorkprintFileTypeFactory"/>
+    <lang.parserDefinition language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintParserDefinition"/>
   </extensions>
 
   <actions>
