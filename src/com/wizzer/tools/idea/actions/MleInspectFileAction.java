@@ -3,6 +3,7 @@ package com.wizzer.tools.idea.actions;
 
 // Import IntelliJ plugin classes.
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -60,7 +61,8 @@ public class MleInspectFileAction extends AnAction
         // Create a Readme.txt file if the selection is a directory.
         if (selection[0].isDirectory()) {
             PsiDirectory dest = PsiManager.getInstance(project).findDirectory(selection[0]);
-            createFile(project, dest);
+            // Writing to the PSI must be done within the UI thread.
+            ApplicationManager.getApplication().runWriteAction(new CreateFileRunnable(project, dest));
         }
     }
 
@@ -91,27 +93,56 @@ public class MleInspectFileAction extends AnAction
         return selectionList;
     }
 
-    // Create a Readme.txt file in the selected project.
-    private VirtualFile createFile(Project project, PsiDirectory dir)
+    class CreateFileRunnable implements Runnable
     {
-        String filename = "Readme.txt";
-        PsiFile newFile = null;
+        public Project m_project;
+        public PsiDirectory m_directory;
 
-        try {
-            dir.checkCreateFile(filename);
-
-            // If we made it to here, we can create the file.
-            newFile = PsiFileFactory.getInstance(project).createFileFromText("Readme.txt",
-                    "This file was created by the Magic Lantern Plugin.");
-            dir.add(newFile);
-        } catch (IncorrectOperationException ex) {
-            Messages.showMessageDialog(project, ex.getMessage(),
-                    "Error", Messages.getErrorIcon());
+        public CreateFileRunnable(Project project, PsiDirectory directory)
+        {
+            m_project = project;
+            m_directory = directory;
         }
 
-        if (newFile != null)
-            return newFile.getVirtualFile();
-        else
-            return null;
+        public void run()
+        {
+            createFile(m_project, m_directory);
+        }
+
+        // Create a Readme.txt file in the selected project.
+        private VirtualFile createFile(Project project, PsiDirectory dir)
+        {
+            String filename = "Readme.txt";
+            PsiFile newFile = null;
+
+            try {
+                // Check whether the new file can be created in the specified directory.
+                dir.checkCreateFile(filename);
+
+                // If we made it to here, we can create the file; otherwise an
+                // IncorrectOperationException would have been thrown.
+                newFile = PsiFileFactory.getInstance(project).createFileFromText("Readme.txt",
+                        "This file was created by the Magic Lantern Plugin.");
+
+                // TODO: Add property on file here indicating that it was created
+                // by the Magic Lantern plugin.
+
+                // Add the new file to the folder and write it to disk.
+                dir.add(newFile);
+            } catch (IncorrectOperationException ex) {
+                Messages.showMessageDialog(project, ex.getMessage(),
+                        "Error", Messages.getErrorIcon());
+            }
+
+            if (newFile != null)
+                return newFile.getVirtualFile();
+            else
+                return null;
+        }
+
+        // Hide default constructor.
+        private CreateFileRunnable() {}
     }
+
+
 }
