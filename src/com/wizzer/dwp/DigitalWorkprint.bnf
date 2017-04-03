@@ -15,14 +15,10 @@
   psiImplUtilClass="com.wizzer.dwp.psi.impl.DigitalWorkprintPsiImplUtil"
 }
 
-dwpFile ::= (property|COMMENT)*
+dwpFile ::= item_*
 
-property ::= (KEY SEPARATOR VALUE?)|KEY {
-    pin=3
-    recoverWhile="recover_property"
-    mixin="com.wizzer.dwp.psi.impl.DigitalWorkprintNamedElementImpl"
-    implements="com.wizzer.dwp.psi.DigitalWorkprintNamedElement"
-    methods=[getKey getValue getName setName getNameIdentifier getPresentation]
-}
+private item_ ::= (property|COMMENT|CRLF)
 
-private recover_property ::= !(KEY|SEPARATOR|COMMENT)
+property ::= (KEY? SEPARATOR VALUE?) | KEY {mixin="com.wizzer.dwp.psi.impl.DigitalWorkprintNamedElementImpl"
+  implements="com.wizzer.dwp.psi.DigitalWorkprintNamedElement"
+  methods=[getKey getValue getName setName getNameIdentifier getPresentation]}

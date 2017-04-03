@@ -3,11 +3,14 @@ package com.wizzer.dwp.psi.impl;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
 import com.wizzer.dwp.psi.DigitalWorkprintElementFactory;
 import com.wizzer.dwp.psi.DigitalWorkprintNamedElement;
 import com.wizzer.dwp.psi.DigitalWorkprintTypes;
 import com.wizzer.dwp.psi.DwpProperty;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by msm on 3/31/17.
@@ -19,6 +22,13 @@ public class DigitalWorkprintNamedElementImpl extends ASTWrapperPsiElement imple
         super(node);
     }
 
+    @Nullable
+    public PsiElement getNameIdentifier() { return null; }
+
+    public PsiElement setName(@NonNls @NotNull String var1) throws IncorrectOperationException
+    { return null; }
+    
+    /*
     public static String getName(DwpProperty element)
     {
         return getKey(element);
@@ -43,4 +53,5 @@ public class DigitalWorkprintNamedElementImpl extends ASTWrapperPsiElement imple
             return null;
         }
     }
+    */
 }
