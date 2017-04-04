@@ -22,15 +22,15 @@ public class DigitalWorkprintAnnotator implements Annotator {
 
             if (value != null && value.startsWith("dwp" + ":")) {
                 Project project = element.getProject();
-                String key = value.substring(7);
+                String key = value.substring(4);
                 List<DwpProperty> properties = DigitalWorkprintUtil.findProperties(project, key);
                 if (properties.size() == 1) {
-                    TextRange range = new TextRange(element.getTextRange().getStartOffset() + 7,
-                            element.getTextRange().getStartOffset() + 7);
+                    TextRange range = new TextRange(element.getTextRange().getStartOffset() + 4,
+                            element.getTextRange().getStartOffset() + 4);
                     Annotation annotation = holder.createInfoAnnotation(range, null);
                     annotation.setTextAttributes(DefaultLanguageHighlighterColors.LINE_COMMENT);
                 } else if (properties.size() == 0) {
-                    TextRange range = new TextRange(element.getTextRange().getStartOffset() + 8,
+                    TextRange range = new TextRange(element.getTextRange().getStartOffset() + 5,
                             element.getTextRange().getEndOffset());
                     holder.createErrorAnnotation(range, "Unresolved property").
                             registerFix(new CreatePropertyQuickFix(key));

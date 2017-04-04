@@ -21,7 +21,7 @@ public class DigitalWorkprintLineMarkerProvider extends RelatedItemLineMarkerPro
             String value = literalExpression.getValue() instanceof String ? (String) literalExpression.getValue() : null;
             if (value != null && value.startsWith("dwp" + ":")) {
                 Project project = element.getProject();
-                final List<DwpProperty> properties = DigitalWorkprintUtil.findProperties(project, value.substring(7));
+                final List<DwpProperty> properties = DigitalWorkprintUtil.findProperties(project, value.substring(4));
                 if (properties.size() > 0) {
                     NavigationGutterIconBuilder<PsiElement> builder =
                             NavigationGutterIconBuilder.create(DigitalWorkprintIcons.FILE).

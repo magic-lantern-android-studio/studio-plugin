@@ -29,7 +29,7 @@ public class DigitalWorkprintFoldingBuilder extends FoldingBuilderEx {
 
             if (value != null && value.startsWith("dwp:")) {
                 Project project = literalExpression.getProject();
-                String key = value.substring(7);
+                String key = value.substring(4);
                 final List<DwpProperty> properties = DigitalWorkprintUtil.findProperties(project, key);
                 if (properties.size() == 1) {
                     descriptors.add(new FoldingDescriptor(literalExpression.getNode(),

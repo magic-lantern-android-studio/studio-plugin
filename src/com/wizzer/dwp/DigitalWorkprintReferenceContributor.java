@@ -24,7 +24,7 @@ public class DigitalWorkprintReferenceContributor extends PsiReferenceContributo
                                 (String) literalExpression.getValue() : null;
                         if (value != null && value.startsWith("dwp" + ":")) {
                             return new PsiReference[]{
-                                    new DigitalWorkprintReference(element, new TextRange(8, value.length() + 1))};
+                                    new DigitalWorkprintReference(element, new TextRange(5, value.length() + 1))};
                         }
                         return PsiReference.EMPTY_ARRAY;
                     }
