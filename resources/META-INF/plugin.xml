@@ -5,11 +5,12 @@
   <vendor email="msm@wizzerworks.com" url="http://www.wizzerworks.com">Wizzer Works</vendor>
 
   <description><![CDATA[
-      Support for building Magic Lantern applications targeting the Android platform.
+      IDE support for building Magic Lantern applications targeting the Android platform.
     ]]></description>
 
   <change-notes><![CDATA[
-      Initial Proof-of-Concept<br>
+      Initial Proof-of-Concept. Moved support for Digital Workprint into its own plugin,
+      dwp-language-plugin<br>
     ]]>
   </change-notes>
 
@@ -28,23 +29,6 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- TODO: AndroidWizardWrapper wraps the old DynamicWizard and this registration should be removed once we've ported to ModelWizard -->
     <moduleBuilder builderClass="com.wizzer.jetbrains.newProject.AndroidWizardWrapper"/>
-    <fileTypeFactory implementation="com.wizzer.dwp.DigitalWorkprintFileTypeFactory"/>
-    <lang.parserDefinition language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintParserDefinition"/>
-    <lang.syntaxHighlighterFactory key="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintSyntaxHighlighterFactory"/>
-    <colorSettingsPage implementation="com.wizzer.dwp.DigitalWorkprintColorSettingsPage"/>
-    <annotator language="JAVA" implementationClass="com.wizzer.dwp.DigitalWorkprintAnnotator"/>
-    <codeInsight.lineMarkerProvider language="JAVA" implementationClass="com.wizzer.dwp.DigitalWorkprintLineMarkerProvider"/>
-    <completion.contributor language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintCompletionContributor"/>
-    <psi.referenceContributor implementation="com.wizzer.dwp.DigitalWorkprintReferenceContributor"/>
-    <lang.refactoringSupport language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintRefactoringSupportProvider"/>
-    <lang.findUsagesProvider language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintFindUsagesProvider"/>
-    <lang.foldingBuilder language="JAVA" implementationClass="com.wizzer.dwp.DigitalWorkprintFoldingBuilder"/>
-    <gotoSymbolContributor implementation="com.wizzer.dwp.DigitalWorkprintChooseByNameContributor"/>
-    <lang.psiStructureViewFactory language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintStructureViewFactory"/>
-    <lang.formatter language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintFormattingModelBuilder"/>
-    <codeStyleSettingsProvider implementation="com.wizzer.dwp.DigitalWorkprintCodeStyleSettingsProvider"/>
-    <langCodeStyleSettingsProvider implementation="com.wizzer.dwp.DigitalWorkprintLanguageCodeStyleSettingsProvider"/>
-    <lang.commenter language="DigitalWorkprint" implementationClass="com.wizzer.dwp.DigitalWorkprintCommenter"/>
   </extensions>
 
   <actions>
